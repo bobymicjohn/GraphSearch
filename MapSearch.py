@@ -1,5 +1,7 @@
 import csv
 
+found = False
+
 def buildGraph(csvpath):
 	with open(csvpath, 'rb') as csvfile:
 		reader = csv.reader(csvfile, delimiter=',', quotechar='|')
@@ -17,7 +19,8 @@ def buildGraph(csvpath):
 					if j == 0 :
 						node.append(item)
 					elif item == '1':
-						children.append(cities[j-1])
+						if cities[j-1] != node[0] :
+							children.append(cities[j-1])
 					j = j + 1
 				node.append(children)
 				graphList.append(node)
@@ -26,11 +29,29 @@ def buildGraph(csvpath):
 		return graph
 
 
+##def breadthFirstSearch(graph, start, end):
+
+
+
+def depthFirstSearch(graph, start, end, path=[]):
+	path.append(start)
+	print 'Visiting node ', start
+	if start == end:
+		global found
+		found = True
+		return path
+	else:
+		print 'Expanding ', start, ' to ', graph[start]
+	for next in (set(graph[start]) - set(path)):
+		if found == True:
+			break
+		depthFirstSearch(graph, next, end, path)
+	return path
 
 
 def main():
 	path = 'Assign2_MapMatrix.csv'
-	isNewPath = 'x'
+
 	while(1):
 		print 'Loading %s would you like to use a different adjacency matrix .csv file path?' % (path)
 		isNewPath = raw_input("[y/n]: ")
@@ -42,9 +63,32 @@ def main():
 		else:
 			print 'Error: invalid selection\n'
 	
-	graph = buildGraph('Assign2_MapMatrix.csv')
+	graph = buildGraph(path)
 	print graph
+
+	while(1):
+		start = raw_input('Enter the starting location: ')
+		if start in graph:
+			break
+		print 'Error: desired starting location not in provided graph. Please try again.'
 	
+	while(1):
+		end = raw_input('Enter the destination: ')
+		if end in graph:
+			break
+		print 'Error: desired destination not a location in the provided graph. Please try again.'
+	
+	while(1):
+		searchType = raw_input('Enter the desired search algorithm (BFS or DFS): ')
+		if searchType == 'DFS':
+			path = depthFirstSearch(graph, start, end, [])
+			print 'Found destination ', end, '!'
+			print 'Path: ', path
+			break
+		elif searchType == 'BFS':
+			##breadth first search
+			break
+		print 'Error: invalid selection, please try again.'
 
 if __name__ == "__main__":
 	main()
