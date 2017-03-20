@@ -29,9 +29,17 @@ def buildGraph(csvpath):
 		return graph
 
 
-##def breadthFirstSearch(graph, start, end):
-
-
+def breadthFirstSearch(graph, start, end):
+	path = []
+	queue = [start]
+	while queue:
+		node = queue.pop(0)
+		if node not in set(path):
+			print 'Visiting node ', node
+			path.append(node)
+			print 'Expanding ', node, ' to ', graph[node]
+			queue.extend(set(graph[node]) - set(path))
+	return path
 
 def depthFirstSearch(graph, start, end, path=[]):
 	path.append(start)
@@ -80,13 +88,15 @@ def main():
 	
 	while(1):
 		searchType = raw_input('Enter the desired search algorithm (BFS or DFS): ')
-		if searchType == 'DFS':
+		if searchType == 'DFS' or searchType == 'dfs':
 			path = depthFirstSearch(graph, start, end, [])
 			print 'Found destination ', end, '!'
 			print 'Path: ', path
 			break
-		elif searchType == 'BFS':
-			##breadth first search
+		elif searchType == 'BFS' or searchType == 'bfs':
+			path = breadthFirstSearch(graph, start, end)
+			print 'Found destination ', end, '!'
+			print 'Path: ', path
 			break
 		print 'Error: invalid selection, please try again.'
 
