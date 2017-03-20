@@ -62,23 +62,21 @@ def depthFirstSearch(graph, start, end, path=[]):
 	return path
 
 def main():
-	if init == False:
-		path = 'Assign2_MapMatrix.csv'
+	path = 'Assign2_MapMatrix.csv'
 
-		while(1):
-			print 'Loading %s would you like to use a different adjacency matrix .csv file path?' % (path)
-			isNewPath = raw_input("[y/n]: ")
-			if (isNewPath == 'y' or isNewPath == 'Y') :
-				path = raw_input("Please enter file path to valid .csv file: ")
-				break
-			elif (isNewPath == 'n' or isNewPath == 'N') :
-				break
-			else:
-				print 'Error: invalid selection\n'
+	while(1):
+		print 'Loading %s would you like to use a different adjacency matrix .csv file path?' % (path)
+		isNewPath = raw_input("[y/n]: ")
+		if (isNewPath == 'y' or isNewPath == 'Y') :
+			path = raw_input("Please enter file path to valid .csv file: ")
+			break
+		elif (isNewPath == 'n' or isNewPath == 'N') :
+			break
+		else:
+			print 'Error: invalid selection\n'
 		
-		graph = buildGraph(path)
-		global init
-		init = True
+	graph = buildGraph(path)
+
 
 	while(1):
 		start = raw_input('Enter the starting location: ')
