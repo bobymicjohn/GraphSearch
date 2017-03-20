@@ -1,6 +1,7 @@
 import csv
 
 found = False
+init = False
 
 def buildGraph(csvpath):
 	with open(csvpath, 'rb') as csvfile:
@@ -60,22 +61,24 @@ def depthFirstSearch(graph, start, end, path=[]):
 		path.pop()
 	return path
 
-
 def main():
-	path = 'Assign2_MapMatrix.csv'
+	if init == False:
+		path = 'Assign2_MapMatrix.csv'
 
-	while(1):
-		print 'Loading %s would you like to use a different adjacency matrix .csv file path?' % (path)
-		isNewPath = raw_input("[y/n]: ")
-		if (isNewPath == 'y' or isNewPath == 'Y') :
-			path = raw_input("Please enter file path to valid .csv file: ")
-			break
-		elif (isNewPath == 'n' or isNewPath == 'N') :
-			break
-		else:
-			print 'Error: invalid selection\n'
-	
-	graph = buildGraph(path)
+		while(1):
+			print 'Loading %s would you like to use a different adjacency matrix .csv file path?' % (path)
+			isNewPath = raw_input("[y/n]: ")
+			if (isNewPath == 'y' or isNewPath == 'Y') :
+				path = raw_input("Please enter file path to valid .csv file: ")
+				break
+			elif (isNewPath == 'n' or isNewPath == 'N') :
+				break
+			else:
+				print 'Error: invalid selection\n'
+		
+		graph = buildGraph(path)
+		global init
+		init = True
 
 	while(1):
 		start = raw_input('Enter the starting location: ')
@@ -104,6 +107,9 @@ def main():
 			print 'Path: ', path
 			break
 		print 'Error: invalid selection, please try again.'
+
+	print '--------------------'
+	main()
 
 if __name__ == "__main__":
 	main()
