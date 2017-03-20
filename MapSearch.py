@@ -33,12 +33,14 @@ def breadthFirstSearch(graph, start, end):
 	path = []
 	queue = [start]
 	while queue:
-		node = queue.pop(0)
-		if node not in set(path):
-			print 'Visiting node ', node
-			path.append(node)
-			print 'Expanding ', node, ' to ', graph[node]
-			queue.extend(set(graph[node]) - set(path))
+		path = queue.pop(0)
+		node = path[-1]
+		if node == end:
+			break
+		for next in graph.get(node, []):
+			new_path = list(path)
+			new_path.append(next)
+			queue.append(new_path)
 	return path
 
 def depthFirstSearch(graph, start, end, path=[]):
@@ -93,6 +95,8 @@ def main():
 			path = depthFirstSearch(graph, start, end, [])
 			print 'Found destination ', end, '!'
 			print 'Path: ', path
+			global found
+			found = False
 			break
 		elif searchType == 'BFS' or searchType == 'bfs':
 			path = breadthFirstSearch(graph, start, end)
