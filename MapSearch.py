@@ -50,10 +50,12 @@ def depthFirstSearch(graph, start, end, path=[]):
 		return path
 	else:
 		print 'Expanding ', start, ' to ', graph[start]
-	for next in (set(graph[start]) - set(path)):
+	for next in sorted(set(graph[start]) - set(path)):
 		if found == True:
 			break
 		depthFirstSearch(graph, next, end, path)
+	if found != True:
+		path.pop()
 	return path
 
 
@@ -72,7 +74,6 @@ def main():
 			print 'Error: invalid selection\n'
 	
 	graph = buildGraph(path)
-	print graph
 
 	while(1):
 		start = raw_input('Enter the starting location: ')
